@@ -6,33 +6,32 @@ const API_BASE =
   "https://falcontrade-ai.onrender.com";
 
 export default function Home() {
-  const [prices, setPrices] = useState(null);
-  const [forecast, setForecast] = useState(null);
+  const [prices, setPrices] = useState([]);
+  const [forecast, setForecast] = useState([]);
   const [error, setError] = useState("");
 
+  async function load() {
+    try {
+      setError("");
+      const [pRes, fRes] = await Promise.all([
+        fetch(`${API_BASE}/prices`, { cache: "no-store" }),
+        fetch(`${API_BASE}/forecast`, { cache: "no-store" }),
+      ]);
+      if (!pRes.ok || !fRes.ok) throw new Error();
+      const pJson = await pRes.json();
+      const fJson = await fRes.json();
+      // ✅ FIX: use pJson.prices (not pJson.commodities)
+      setPrices(pJson?.prices || []);
+      setForecast(fJson?.forecast || []);
+    } catch {
+      setError("Failed to fetch prices");
+    }
+  }
+
   useEffect(() => {
-    const load = async () => {
-      try {
-        setError("");
-        const [pRes, fRes] = await Promise.all([
-          fetch(`${API_BASE}/prices`, { cache: "no-store" }),
-          fetch(`${API_BASE}/forecast`, { cache: "no-store" }),
-        ]);
-
-        if (!pRes.ok || !fRes.ok) {
-          throw new Error(`API error: ${pRes.status}/${fRes.status}`);
-        }
-
-        const pJson = await pRes.json();
-        const fJson = await fRes.json();
-
-        setPrices(pJson?.commodities || []);
-        setForecast(fJson?.forecast || []);
-      } catch (e) {
-        setError("Failed to fetch prices");
-      }
-    };
     load();
+    const id = setInterval(load, 60_000); // auto-refresh every 60s
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -42,21 +41,12 @@ export default function Home() {
         API: {API_BASE}
       </div>
 
-      {error ? (
-        <div style={{ color: "crimson", fontWeight: 600 }}>{error}</div>
-      ) : null}
+      {error ? <div style={{ color: "crimson", fontWeight: 600 }}>{error}</div> : null}
 
-      {/* Prices table */}
       <section style={{ marginTop: 16 }}>
         <h2>Prices</h2>
         <div style={{ overflowX: "auto" }}>
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              border: "1px solid #eee",
-            }}
-          >
+          <table style={{ width: "100%", borderCollapse: "collapse", border: "1px solid #eee" }}>
             <thead>
               <tr>
                 <th style={th}>Commodity</th>
@@ -66,7 +56,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {(prices || []).map((r, i) => (
+              {prices.map((r, i) => (
                 <tr key={i}>
                   <td style={td}>{r.name}</td>
                   <td style={td}>{r.unit}</td>
@@ -79,17 +69,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Forecast table */}
       <section style={{ marginTop: 28 }}>
         <h2>Forecast (t+1)</h2>
         <div style={{ overflowX: "auto" }}>
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              border: "1px solid #eee",
-            }}
-          >
+          <table style={{ width: "100%", borderCollapse: "collapse", border: "1px solid #eee" }}>
             <thead>
               <tr>
                 <th style={th}>Commodity</th>
@@ -98,7 +81,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {(forecast || []).map((r, i) => (
+              {forecast.map((r, i) => (
                 <tr key={i}>
                   <td style={td}>{r.name}</td>
                   <td style={td}>{r.unit}</td>
@@ -113,21 +96,12 @@ export default function Home() {
   );
 }
 
-const th = {
-  textAlign: "left",
-  padding: "10px 12px",
-  borderBottom: "1px solid #eee",
-  background: "#fafafa",
-  fontWeight: 600,
-};
-
-const td = {
-  padding: "10px 12px",
-  borderBottom: "1px solid #f2f2f2",
-};
+const th = { textAlign: "left", padding: "10px 12px", borderBottom: "1px solid #eee", background: "#fafafa", fontWeight: 600 };
+const td = { padding: "10px 12px", borderBottom: "1px solid #f2f2f2" };
 
 function fmt(n) {
-  if (n === null || n === undefined || isNaN(n)) return "-";
+  if (n == null || isNaN(n)) return "-";
   return Number(n).toLocaleString("en-US", { maximumFractionDigits: 2 });
 }
+
 
