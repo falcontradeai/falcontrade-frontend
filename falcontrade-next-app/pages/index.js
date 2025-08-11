@@ -1,81 +1,133 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_BASE ||
+  "https://falcontrade-ai.onrender.com";
 
 export default function Home() {
   const [prices, setPrices] = useState(null);
-  const [forecasts, setForecasts] = useState(null);
-  const [error, setError] = useState(null);
+  const [forecast, setForecast] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
+    const load = async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_BASE || '';
-        const res = await fetch(`${base}/prices`);
-        if (!res.ok) throw new Error('Failed to fetch prices');
-        const pricesData = await res.json();
-        setPrices(pricesData.prices);
-        const res2 = await fetch(`${base}/forecast`);
-        if (res2.ok) {
-          const forecastsData = await res2.json();
-          setForecasts(forecastsData.forecasts);
+        setError("");
+        const [pRes, fRes] = await Promise.all([
+          fetch(`${API_BASE}/prices`, { cache: "no-store" }),
+          fetch(`${API_BASE}/forecast`, { cache: "no-store" }),
+        ]);
+
+        if (!pRes.ok || !fRes.ok) {
+          throw new Error(`API error: ${pRes.status}/${fRes.status}`);
         }
-      } catch (err) {
-        setError(err.message);
+
+        const pJson = await pRes.json();
+        const fJson = await fRes.json();
+
+        setPrices(pJson?.commodities || []);
+        setForecast(fJson?.forecast || []);
+      } catch (e) {
+        setError("Failed to fetch prices");
       }
     };
-    fetchData();
+    load();
   }, []);
 
   return (
-    <main style={{ padding: '2rem' }}>
-      <h1>FalconTrade AI Dashboard</h1>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      {!error && !prices && <p>Loading...</p>}
-      {prices && (
-        <section>
-          <h2>Last Prices</h2>
-          <table border="1" cellPadding="6">
+    <div style={{ padding: 24, fontFamily: "Inter, system-ui, Arial" }}>
+      <h1 style={{ marginBottom: 8 }}>FalconTrade AI — Preview</h1>
+      <div style={{ opacity: 0.6, marginBottom: 20, fontSize: 14 }}>
+        API: {API_BASE}
+      </div>
+
+      {error ? (
+        <div style={{ color: "crimson", fontWeight: 600 }}>{error}</div>
+      ) : null}
+
+      {/* Prices table */}
+      <section style={{ marginTop: 16 }}>
+        <h2>Prices</h2>
+        <div style={{ overflowX: "auto" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              border: "1px solid #eee",
+            }}
+          >
             <thead>
               <tr>
-                {Object.keys(prices[0]).map((key) => (
-                  <th key={key}>{key}</th>
-                ))}
+                <th style={th}>Commodity</th>
+                <th style={th}>Unit</th>
+                <th style={th}>Price</th>
+                <th style={th}>Source</th>
               </tr>
             </thead>
             <tbody>
-              {prices.map((row, idx) => (
-                <tr key={idx}>
-                  {Object.values(row).map((val, cidx) => (
-                    <td key={cidx}>{val}</td>
-                  ))}
+              {(prices || []).map((r, i) => (
+                <tr key={i}>
+                  <td style={td}>{r.name}</td>
+                  <td style={td}>{r.unit}</td>
+                  <td style={td}>{fmt(r.price)}</td>
+                  <td style={td}>{r.source || "Preview"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </section>
-      )}
-      {forecasts && (
-        <section style={{ marginTop: '2rem' }}>
-          <h2>Forecast (T+1)</h2>
-          <table border="1" cellPadding="6">
+        </div>
+      </section>
+
+      {/* Forecast table */}
+      <section style={{ marginTop: 28 }}>
+        <h2>Forecast (t+1)</h2>
+        <div style={{ overflowX: "auto" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              border: "1px solid #eee",
+            }}
+          >
             <thead>
               <tr>
-                {Object.keys(forecasts[0]).map((key) => (
-                  <th key={key}>{key}</th>
-                ))}
+                <th style={th}>Commodity</th>
+                <th style={th}>Unit</th>
+                <th style={th}>Forecast</th>
               </tr>
             </thead>
             <tbody>
-              {forecasts.map((row, idx) => (
-                <tr key={idx}>
-                  {Object.values(row).map((val, cidx) => (
-                    <td key={cidx}>{val}</td>
-                  ))}
+              {(forecast || []).map((r, i) => (
+                <tr key={i}>
+                  <td style={td}>{r.name}</td>
+                  <td style={td}>{r.unit}</td>
+                  <td style={td}>{fmt(r.t_plus_1)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </section>
-      )}
-    </main>
+        </div>
+      </section>
+    </div>
   );
 }
+
+const th = {
+  textAlign: "left",
+  padding: "10px 12px",
+  borderBottom: "1px solid #eee",
+  background: "#fafafa",
+  fontWeight: 600,
+};
+
+const td = {
+  padding: "10px 12px",
+  borderBottom: "1px solid #f2f2f2",
+};
+
+function fmt(n) {
+  if (n === null || n === undefined || isNaN(n)) return "-";
+  return Number(n).toLocaleString("en-US", { maximumFractionDigits: 2 });
+}
+
