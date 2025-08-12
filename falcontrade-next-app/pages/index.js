@@ -13,24 +13,43 @@ export default function Home() {
   async function load() {
     try {
       setError("");
-      const [pRes, fRes] = await Promise.all([
+
+      // fetch both endpoints (prices always, forecast best-effort)
+      const [pRes, fRes] = await Promise.allSettled([
         fetch(`${API_BASE}/prices`, { cache: "no-store" }),
         fetch(`${API_BASE}/forecast`, { cache: "no-store" }),
       ]);
-      if (!pRes.ok || !fRes.ok) throw new Error();
-      const pJson = await pRes.json();
-      const fJson = await fRes.json();
-      // ✅ FIX: use pJson.prices (not pJson.commodities)
-      setPrices(pJson?.prices || []);
-      setForecast(fJson?.forecast || []);
-    } catch {
+
+      // PRICES
+      if (pRes.status !== "fulfilled" || !pRes.value.ok) {
+        throw new Error("prices failed");
+      }
+      const pJson = await pRes.value.json();
+      const pricesArr = Array.isArray(pJson?.prices) ? pJson.prices : [];
+      setPrices(pricesArr);
+
+      // FORECAST (fallback to +2% if empty or failed)
+      let fc = [];
+      if (fRes.status === "fulfilled" && fRes.value.ok) {
+        const fJson = await fRes.value.json();
+        fc = Array.isArray(fJson?.forecast) ? fJson.forecast : [];
+      }
+      if (!fc.length && pricesArr.length) {
+        fc = pricesArr.map((r) => ({
+          name: r.name,
+          unit: r.unit,
+          t_plus_1: round2(Number(r.price) * 1.02),
+        }));
+      }
+      setForecast(fc);
+    } catch (e) {
       setError("Failed to fetch prices");
     }
   }
 
   useEffect(() => {
     load();
-    const id = setInterval(load, 60_000); // auto-refresh every 60s
+    const id = setInterval(load, 60_000);
     return () => clearInterval(id);
   }, []);
 
@@ -41,8 +60,11 @@ export default function Home() {
         API: {API_BASE}
       </div>
 
-      {error ? <div style={{ color: "crimson", fontWeight: 600 }}>{error}</div> : null}
+      {error ? (
+        <div style={{ color: "crimson", fontWeight: 600 }}>{error}</div>
+      ) : null}
 
+      {/* Prices */}
       <section style={{ marginTop: 16 }}>
         <h2>Prices</h2>
         <div style={{ overflowX: "auto" }}>
@@ -69,6 +91,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Forecast */}
       <section style={{ marginTop: 28 }}>
         <h2>Forecast (t+1)</h2>
         <div style={{ overflowX: "auto" }}>
@@ -103,5 +126,6 @@ function fmt(n) {
   if (n == null || isNaN(n)) return "-";
   return Number(n).toLocaleString("en-US", { maximumFractionDigits: 2 });
 }
-
-
+function round2(x) {
+  return Math.round((x + Number.EPSILON) * 100) / 100;
+}
