@@ -36,7 +36,14 @@ export default function NewRFQ() {
           <input className="input" placeholder="Country" value={form.country} onChange={e=>setForm({...form, country:e.target.value})} />
           <input className="input" placeholder="City/Port" value={form.city} onChange={e=>setForm({...form, city:e.target.value})} />
         </div>
-        <textarea className="textarea" rows={6} placeholder="Details JSON (e.g., {"grade":"A","moisture":"12%"})" onChange={e=>{
+       <textarea
+  className="textarea"
+  rows={6}
+  placeholder='Details JSON (e.g., {"grade":"A","moisture":"12%"})'
+  onChange={e=>{
+    try { setDetails(JSON.parse(e.target.value || '{}')); } catch {}
+  }}
+/>
           try { setDetails(JSON.parse(e.target.value||'{}')); } catch {}
         }} />
         <button className="btn">Create RFQ</button>
