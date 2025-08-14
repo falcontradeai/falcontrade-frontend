@@ -5,7 +5,7 @@ export const API_BASE =
 
 export function authHeaders() {
   if (typeof window === 'undefined') return {};
-  const token = localStorage.getItem('ft_token');
+  const token = localStorage.getItem('token') || localStorage.getItem('ft_token');
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 

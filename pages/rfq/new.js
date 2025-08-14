@@ -14,18 +14,18 @@ export default function NewRFQ() {
   };
 
   return (
-    <div className="container">
-      <h1>New RFQ</h1>
-      <form onSubmit={submit}>
-        <input className="input" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-        <input className="input" placeholder="Quantity" value={form.quantity} onChange={e => setForm({ ...form, quantity: e.target.value })} />
-        <input className="input" placeholder="Unit" value={form.unit} onChange={e => setForm({ ...form, unit: e.target.value })} />
-        <div className="flex">
-          <input className="input" placeholder="Country" value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} />
-          <input className="input" placeholder="City/Port" value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} />
+    <div>
+      <h1 className="text-xl font-bold">New RFQ</h1>
+      <form onSubmit={submit} className="mt-3 space-y-3">
+        <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+        <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Quantity" value={form.quantity} onChange={e => setForm({ ...form, quantity: e.target.value })} />
+        <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Unit" value={form.unit} onChange={e => setForm({ ...form, unit: e.target.value })} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Country" value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} />
+          <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="City/Port" value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} />
         </div>
         <textarea
-          className="textarea"
+          className="w-full p-2 border border-border rounded-lg bg-background"
           rows={6}
           placeholder='Details JSON (e.g., {"grade":"A","moisture":"12%"})'
           onChange={e => {
@@ -34,7 +34,7 @@ export default function NewRFQ() {
             } catch {}
           }}
         />
-        <button className="btn">Create RFQ</button>
+        <button className="px-3 py-2 rounded-lg border border-border bg-background">Create RFQ</button>
       </form>
     </div>
   );

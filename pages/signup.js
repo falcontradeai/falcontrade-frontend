@@ -19,12 +19,12 @@ export default function Signup() {
   }
 
   return (
-    <div className="card" style={{maxWidth:500, margin:'20px auto'}}>
-      <h2>Create account</h2>
-      <form onSubmit={submit} className="space-y-2">
-        <input className="input" type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required />
-        <input className="input" type="password" placeholder="Password (min 6)" value={password} onChange={e=>setPassword(e.target.value)} minLength={6} required />
-        <button className="btn">Sign up</button>
+    <div className="bg-card border border-border rounded-xl p-4 shadow max-w-md mx-auto mt-5">
+      <h2 className="text-xl font-bold">Create account</h2>
+      <form onSubmit={submit} className="mt-3 space-y-3">
+        <input className="w-full p-2 border border-border rounded-lg bg-background" type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required/>
+        <input className="w-full p-2 border border-border rounded-lg bg-background" type="password" placeholder="Password (min 6)" value={password} onChange={e=>setPassword(e.target.value)} minLength={6} required />
+        <button className="px-3 py-2 rounded-lg border border-border bg-background">Sign up</button>
       </form>
       {msg && <div className="mt-2">{msg}</div>}
     </div>
