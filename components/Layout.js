@@ -28,21 +28,56 @@ export default function Layout({ children }) {
         {hasToken ? (
           <>
             {/* TODO: Add role-based links such as Admin here when available */}
-            <button className="px-3 py-2 rounded-lg border border-border bg-background" onClick={logout}>Sign out</button>
+            <button
+              className="px-3 py-2 rounded-lg border border-border bg-background"
+              onClick={logout}
+            >
+              Sign out
+            </button>
           </>
         ) : (
           <>
-            <Link href="/login" className="px-3 py-2 rounded-lg border border-border bg-background">Sign in</Link>
-            <Link href="/signup" className="px-3 py-2 rounded-lg border border-primary bg-primary text-white">Sign up</Link>
+            <Link
+              href="/login"
+              className="px-3 py-2 rounded-lg border border-border bg-background"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/signup"
+              className="px-3 py-2 rounded-lg border border-primary bg-primary text-white"
+            >
+              Sign up
+            </Link>
           </>
         )}
       </nav>
       <div className="max-w-screen-lg mx-auto p-5">{children}</div>
       <footer className="flex justify-center gap-4 mt-10">
-        <Link href="/about" className="px-3 py-2 rounded-lg border border-border bg-background">About</Link>
-        <Link href="/pricing" className="px-3 py-2 rounded-lg border border-border bg-background">Pricing</Link>
-        <Link href="/contact" className="px-3 py-2 rounded-lg border border-border bg-background">Contact</Link>
-        <Link href="/faq" className="px-3 py-2 rounded-lg border border-border bg-background">FAQ</Link>
+        <Link
+          href="/about"
+          className="px-3 py-2 rounded-lg border border-border bg-background"
+        >
+          About
+        </Link>
+        <Link
+          href="/pricing"
+          className="px-3 py-2 rounded-lg border border-border bg-background"
+        >
+          Pricing
+        </Link>
+        <Link
+          href="/contact"
+          className="px-3 py-2 rounded-lg border border-border bg-background"
+        >
+          Contact
+        </Link>
+        <Link
+          href="/faq"
+          className="px-3 py-2 rounded-lg border border-border bg-background"
+        >
+          FAQ
+        </Link>
       </footer>
     </>
   )
