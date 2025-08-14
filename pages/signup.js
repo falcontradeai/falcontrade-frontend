@@ -9,24 +9,53 @@ export default function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [msg, setMsg] = useState(null)
+  const [status, setStatus] = useState(null) // 'success' | 'error'
 
   const submit = async (e) => {
     e.preventDefault()
     setMsg(null)
-    const res = await fetch(`${API_BASE}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email,
-        password,
-        first_name: firstName,
-        last_name: lastName,
-        company,
-        address,
+    setStatus(null)
+
+    // basic client-side validation
+    if (company.trim().length < 2) {
+      setMsg('Company name must be at least 2 characters')
+      setStatus('error')
+      return
+    }
+    if (!/^\d+\s.+/.test(address.trim())) {
+      setMsg('Address must include a street number')
+      setStatus('error')
+      return
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          first_name: firstName,
+          last_name: lastName,
+          company,
+          address,
+        })
       })
-    })
-    if (!res.ok) { setMsg('Signup failed'); return }
-    setMsg('Signup success — now sign in.')
+      if (!res.ok) {
+        let data = {}
+        try {
+          data = await res.json()
+        } catch (err) {}
+        setMsg(data.detail || data.error || 'Signup failed')
+        setStatus('error')
+        return
+      }
+      setMsg('Signup success — now sign in.')
+      setStatus('success')
+    } catch (err) {
+      setMsg('Network error')
+      setStatus('error')
+    }
   }
 
   return (
@@ -88,7 +117,15 @@ export default function Signup() {
           Sign up
         </button>
       </form>
-      {msg && <div className="mt-2 text-center">{msg}</div>}
+      {msg && (
+        <div
+          className={`mt-2 text-center ${
+            status === 'success' ? 'text-green-600' : 'text-red-600'
+          }`}
+        >
+          {msg}
+        </div>
+      )}
     </div>
   )
 }
