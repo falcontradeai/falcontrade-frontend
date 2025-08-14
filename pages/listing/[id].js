@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { API_BASE, authHeaders } from '../../components/api'
+import Card from '../../components/Card'
+import Button from '../../components/Button'
 
 export default function Listing() {
   const router = useRouter()
@@ -43,10 +45,10 @@ export default function Listing() {
     if (res.ok) { alert('Uploaded'); setFile(null) } else alert('Upload failed (login?)')
   }
 
-  if (!item) return <div className="bg-card border border-border rounded-xl p-4 shadow">Loading…</div>
+  if (!item) return <Card>Loading…</Card>
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4 shadow">
+    <Card>
       <h2 className="text-xl font-bold">{item.title}</h2>
       <div className="px-2 py-1 rounded-full bg-background inline-block text-xs">{item.type}</div> <span>{item.category}</span>
       <div className="mt-2">Qty: {item.quantity} · Incoterm: {item.incoterm} · {item.country}{item.city?(', '+item.city):''}</div>
@@ -59,13 +61,13 @@ export default function Listing() {
 
       <form onSubmit={sendMsg} className="mt-3 space-y-3">
         <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Write a message…" value={body} onChange={e=>setBody(e.target.value)} />
-        <button className="px-3 py-2 rounded-lg border border-border bg-background">Send</button>
+        <Button type="submit">Send</Button>
       </form>
 
       <form onSubmit={upload} className="mt-3 space-y-3">
         <input className="w-full p-2 border border-border rounded-lg bg-background" type="file" onChange={e=>setFile(e.target.files[0])} />
-        <button className="px-3 py-2 rounded-lg border border-border bg-background">Upload document</button>
+        <Button type="submit">Upload document</Button>
       </form>
-    </div>
+    </Card>
   )
 }

@@ -2,7 +2,8 @@
 import { loadStripe } from '@stripe/stripe-js'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { Card } from '@/components/ui/card'
+import Card from '../components/Card'
+import Button from '../components/Button'
 
 // simple check icon for feature lists
 const CheckIcon = () => (
@@ -73,7 +74,9 @@ export default function Pricing() {
       <div className="grid md:grid-cols-3 gap-6">
         <Card className="p-6 flex flex-col">
           <h3 className="text-xl font-semibold mb-4">Starter</h3>
-          <p className="text-4xl font-bold mb-4">$0<span className="text-base font-normal">/mo</span></p>
+          <p className="text-4xl font-bold mb-4">
+            $0<span className="text-base font-normal">/mo</span>
+          </p>
           <ul className="flex-1 space-y-2 mb-6">
             <li>
               <Tooltip text="Explore live market listings">
@@ -108,14 +111,16 @@ export default function Pricing() {
               <span>Community forum access</span>
             </li>
           </ul>
-          <button className="w-full px-3 py-2 rounded-lg border border-border bg-background cursor-not-allowed" disabled>
+          <Button className="w-full" disabled>
             Current
-          </button>
+          </Button>
         </Card>
 
-        <Card className="border-2 border-accent p-6 flex flex-col">
+        <Card className="p-6 flex flex-col border-2 border-accent">
           <h3 className="text-xl font-semibold mb-4">Pro</h3>
-          <p className="text-4xl font-bold mb-4">$249<span className="text-base font-normal">/mo</span></p>
+          <p className="text-4xl font-bold mb-4">
+            $249<span className="text-base font-normal">/mo</span>
+          </p>
           <ul className="flex-1 space-y-2 mb-6">
             <li className="flex items-start">
               <CheckIcon />
@@ -152,17 +157,16 @@ export default function Pricing() {
               <span>Priority email support</span>
             </li>
           </ul>
-          <button
-            className="w-full px-3 py-2 rounded-lg border border-border bg-background hover:bg-accent transition"
-            onClick={handleSubscribe}
-          >
+          <Button className="w-full" onClick={handleSubscribe}>
             Subscribe
-          </button>
+          </Button>
         </Card>
 
         <Card className="p-6 flex flex-col">
           <h3 className="text-xl font-semibold mb-4">Enterprise</h3>
-          <p className="text-4xl font-bold mb-4">$599<span className="text-base font-normal">/mo</span></p>
+          <p className="text-4xl font-bold mb-4">
+            $599<span className="text-base font-normal">/mo</span>
+          </p>
           <ul className="flex-1 space-y-2 mb-6">
             <li className="flex items-start">
               <CheckIcon />
@@ -197,13 +201,13 @@ export default function Pricing() {
               <span>Onboarding & training</span>
             </li>
           </ul>
-          <a
+          <Button
             href="/contact"
+            className="w-full text-center"
             onClick={handleContactSales}
-            className="w-full text-center px-3 py-2 rounded-lg border border-border bg-background hover:bg-accent transition"
           >
             Contact sales
-          </a>
+          </Button>
         </Card>
       </div>
     </div>

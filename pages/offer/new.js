@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import api from '@/components/api';
+import Button from '@/components/Button';
 
 export default function NewOffer() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function NewOffer() {
             } catch {}
           }}
         />
-        <button className="px-3 py-2 rounded-lg border border-border bg-background">Create Offer</button>
+        <Button type="submit">Create Offer</Button>
       </form>
     </div>
   );
