@@ -1,6 +1,8 @@
 import withSubscription from '../components/withSubscription'
 import { useEffect, useState } from 'react'
 import { API_BASE } from '../components/api'
+import Card from '../components/Card'
+import Button from '../components/Button'
 
 function Market() {
   const [items, setItems] = useState([])
@@ -21,7 +23,7 @@ function Market() {
   useEffect(()=>{ load() }, [])
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4 shadow">
+    <Card>
       <h2 className="text-xl font-bold">Market</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
         <select className="w-full p-2 border border-border rounded-lg bg-background" value={type} onChange={e=>setType(e.target.value)}>
@@ -38,7 +40,7 @@ function Market() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
         <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Search title…" value={q} onChange={e=>setQ(e.target.value)} />
-        <button className="px-3 py-2 rounded-lg border border-border bg-background" onClick={load}>Search</button>
+        <Button onClick={load}>Search</Button>
       </div>
       <div className="overflow-x-auto mt-3">
         <table className="w-full border-collapse text-left">
@@ -66,7 +68,7 @@ function Market() {
           </tbody>
         </table>
       </div>
-    </div>
+    </Card>
   )
 }
 

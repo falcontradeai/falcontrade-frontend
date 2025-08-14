@@ -1,5 +1,5 @@
 // pages/index.js
-import Link from 'next/link'
+import Button from '../components/Button'
 
 export default function Home() {
   return (
@@ -26,9 +26,9 @@ export default function Home() {
           <p className="mt-2">
             Fertilizers · Grains · Edible Oils · Textiles · Panels · Poultry · Fruits.
           </p>
-          <Link className="btn btn-primary mt-3" href="/signup">
+          <Button href="/signup" variant="primary" className="mt-3">
             Join Now
-          </Link>
+          </Button>
         </div>
       </section>
 

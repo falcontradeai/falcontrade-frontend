@@ -1,11 +1,12 @@
 import withSubscription from '../components/withSubscription'
+import Card from '../components/Card'
 
 function Admin() {
   return (
-    <div className="card">
+    <Card>
       <h2 className="text-xl">Admin</h2>
       <p>Admin area.</p>
-    </div>
+    </Card>
   )
 }
 

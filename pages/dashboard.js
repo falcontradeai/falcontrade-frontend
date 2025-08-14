@@ -1,11 +1,12 @@
 import withSubscription from '../components/withSubscription'
+import Card from '../components/Card'
 
 function Dashboard() {
   return (
-    <div className="card">
+    <Card>
       <h2 className="text-xl">Dashboard</h2>
       <p>Welcome to your dashboard.</p>
-    </div>
+    </Card>
   )
 }
 
