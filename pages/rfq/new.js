@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import api from '@/components/api';
+import Button from '@/components/Button';
 
 export default function NewRFQ() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function NewRFQ() {
             } catch {}
           }}
         />
-        <button className="px-3 py-2 rounded-lg border border-border bg-background">Create RFQ</button>
+        <Button type="submit">Create RFQ</Button>
       </form>
     </div>
   );

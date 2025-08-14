@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { API_BASE } from '../components/api'
+import Card from '../components/Card'
+import Button from '../components/Button'
 
 export default function Signup() {
   const [firstName, setFirstName] = useState('')
@@ -30,7 +32,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4 shadow max-w-lg mx-auto mt-5">
+    <Card className="max-w-lg mx-auto mt-5">
       <h2 className="text-2xl font-bold text-center">Create account</h2>
       <form onSubmit={submit} className="mt-4 space-y-3">
         <div className="flex space-x-3">
@@ -84,11 +86,11 @@ export default function Signup() {
           minLength={6}
           required
         />
-        <button className="w-full px-3 py-2 rounded-lg border border-border bg-background hover:bg-accent transition">
+        <Button className="w-full" type="submit">
           Sign up
-        </button>
+        </Button>
       </form>
       {msg && <div className="mt-2 text-center">{msg}</div>}
-    </div>
+    </Card>
   )
 }

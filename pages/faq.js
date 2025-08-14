@@ -1,8 +1,10 @@
+import Card from '../components/Card'
+
 export default function FAQ() {
   return (
-    <div className="card">
+    <Card>
       <h1>FAQ</h1>
       <p>Frequently asked questions will appear here.</p>
-    </div>
+    </Card>
   )
 }

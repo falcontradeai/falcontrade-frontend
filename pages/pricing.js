@@ -2,6 +2,8 @@
 import { loadStripe } from '@stripe/stripe-js'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import Card from '../components/Card'
+import Button from '../components/Button'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || '')
 
@@ -30,7 +32,7 @@ export default function Pricing() {
     <div className="max-w-5xl mx-auto mt-10 px-4">
       <h2 className="text-3xl font-bold text-center mb-8">Choose your plan</h2>
       <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-card border border-border rounded-xl p-6 flex flex-col">
+        <Card className="p-6 flex flex-col">
           <h3 className="text-xl font-semibold mb-4">Starter</h3>
           <p className="text-4xl font-bold mb-4">$0<span className="text-base font-normal">/mo</span></p>
           <ul className="flex-1 space-y-2 mb-6">
@@ -38,12 +40,12 @@ export default function Pricing() {
             <li>Read public reports</li>
             <li>Email support</li>
           </ul>
-          <button className="w-full px-3 py-2 rounded-lg border border-border bg-background cursor-not-allowed" disabled>
+          <Button className="w-full" disabled>
             Current
-          </button>
-        </div>
+          </Button>
+        </Card>
 
-        <div className="bg-card border-2 border-accent rounded-xl p-6 flex flex-col">
+        <Card className="p-6 flex flex-col border-2 border-accent">
           <h3 className="text-xl font-semibold mb-4">Pro</h3>
           <p className="text-4xl font-bold mb-4">$249<span className="text-base font-normal">/mo</span></p>
           <ul className="flex-1 space-y-2 mb-6">
@@ -51,12 +53,12 @@ export default function Pricing() {
             <li>Real-time prices & forecasts</li>
             <li>1 user account</li>
           </ul>
-          <button className="w-full px-3 py-2 rounded-lg border border-border bg-background hover:bg-accent transition" onClick={handleSubscribe}>
+          <Button className="w-full" onClick={handleSubscribe}>
             Subscribe
-          </button>
-        </div>
+          </Button>
+        </Card>
 
-        <div className="bg-card border border-border rounded-xl p-6 flex flex-col">
+        <Card className="p-6 flex flex-col">
           <h3 className="text-xl font-semibold mb-4">Enterprise</h3>
           <p className="text-4xl font-bold mb-4">$599<span className="text-base font-normal">/mo</span></p>
           <ul className="flex-1 space-y-2 mb-6">
@@ -64,13 +66,10 @@ export default function Pricing() {
             <li>Up to 5 user accounts</li>
             <li>Dedicated broker & support</li>
           </ul>
-          <a
-            href="/contact"
-            className="w-full text-center px-3 py-2 rounded-lg border border-border bg-background hover:bg-accent transition"
-          >
+          <Button href="/contact" className="w-full text-center">
             Contact sales
-          </a>
-        </div>
+          </Button>
+        </Card>
       </div>
     </div>
   )
