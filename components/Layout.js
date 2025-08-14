@@ -1,12 +1,22 @@
-import Link from 'next/link'
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function Layout({ children }) {
+  const [authed, setAuthed] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAuthed(!!localStorage.getItem('ft_token'));
+    }
+  }, []);
+
   const logout = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('ft_token');
       window.location.href = '/';
     }
-  }
+  };
+
   return (
     <>
       <nav className="nav">
@@ -14,10 +24,21 @@ export default function Layout({ children }) {
         <Link className="btn" href="/market">Market</Link>
         <Link className="btn" href="/rfq/new">Post Need</Link>
         <Link className="btn" href="/offer/new">Post Offer</Link>
-        <div style={{flex:1}} />
-        <Link className="btn" href="/login">Sign in</Link>
-        <Link className="btn btn-primary" href="/signup">Sign up</Link>
-        <button className="btn" onClick={logout}>Sign out</button>
+        <div style={{ flex: 1 }} />
+        {authed ? (
+          <button className="btn" onClick={logout}>
+            Sign out
+          </button>
+        ) : (
+          <>
+            <Link className="btn" href="/login">
+              Sign in
+            </Link>
+            <Link className="btn btn-primary" href="/signup">
+              Sign up
+            </Link>
+          </>
+        )}
       </nav>
       <div className="container">{children}</div>
       <footer className="footer">
@@ -27,5 +48,5 @@ export default function Layout({ children }) {
         <Link href="/faq">FAQ</Link>
       </footer>
     </>
-  )
+  );
 }

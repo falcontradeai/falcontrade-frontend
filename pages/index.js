@@ -10,6 +10,7 @@ export default function Home() {
           muted
           loop
           playsInline
+          preload="none"
           poster="https://via.placeholder.com/1200x600?text=FalconTrade"
         >
           <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
