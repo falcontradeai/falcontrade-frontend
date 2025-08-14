@@ -6,15 +6,17 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('ft_token')
+      const token =
+        localStorage.getItem('token') || localStorage.getItem('ft_token')
       setHasToken(!!token)
     }
   }, [])
 
   const logout = () => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('ft_token');
-      window.location.href = '/';
+      localStorage.removeItem('token')
+      localStorage.removeItem('ft_token')
+      window.location.href = '/'
     }
   }
   return (
