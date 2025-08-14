@@ -4,16 +4,19 @@ import Link from 'next/link';
 
 export default function Layout({ children }) {
   const [authed, setAuthed] = useState(false);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setAuthed(!!localStorage.getItem('ft_token'));
+      setRole(localStorage.getItem('ft_role'));
     }
   }, []);
 
   const logout = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('ft_token');
+      localStorage.removeItem('ft_role');
       window.location.href = '/';
     }
   };
@@ -25,6 +28,9 @@ export default function Layout({ children }) {
         <Link className="btn" href="/market">Market</Link>
         <Link className="btn" href="/rfq/new">Post Need</Link>
         <Link className="btn" href="/offer/new">Post Offer</Link>
+        {role === 'admin' && (
+          <Link className="btn" href="/admin">Admin</Link>
+        )}
         <div style={{ flex: 1 }} />
         {authed ? (
           <button className="btn" onClick={logout}>

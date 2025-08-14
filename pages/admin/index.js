@@ -6,7 +6,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const role = localStorage.getItem('role')
+      const role = localStorage.getItem('ft_role')
       if (role !== 'admin') {
         router.replace('/')
       }

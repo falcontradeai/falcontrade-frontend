@@ -20,6 +20,7 @@ export default function Login() {
     if (!res.ok) { setMsg('Login failed'); return }
     const data = await res.json()
     localStorage.setItem('ft_token', data.access_token)
+    localStorage.setItem('ft_role', data.role)
     window.location.href = '/market'
   }
 
