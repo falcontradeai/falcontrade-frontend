@@ -9,17 +9,17 @@ export default function Layout({ children }) {
   }
   return (
     <>
-      <nav className="nav">
-        <Link className="btn" href="/">Home</Link>
-        <Link className="btn" href="/market">Market</Link>
-        <Link className="btn" href="/rfq/new">Post Need</Link>
-        <Link className="btn" href="/offer/new">Post Offer</Link>
-        <div style={{flex:1}} />
-        <Link className="btn" href="/login">Sign in</Link>
-        <Link className="btn btn-primary" href="/signup">Sign up</Link>
-        <button className="btn" onClick={logout}>Sign out</button>
+      <nav className="flex flex-col gap-2 p-4 bg-card border-b border-border sm:flex-row">
+        <Link href="/" className="px-3 py-2 rounded-lg border border-border bg-background">Home</Link>
+        <Link href="/market" className="px-3 py-2 rounded-lg border border-border bg-background">Market</Link>
+        <Link href="/rfq/new" className="px-3 py-2 rounded-lg border border-border bg-background">Post Need</Link>
+        <Link href="/offer/new" className="px-3 py-2 rounded-lg border border-border bg-background">Post Offer</Link>
+        <div className="flex-1" />
+        <Link href="/login" className="px-3 py-2 rounded-lg border border-border bg-background">Sign in</Link>
+        <Link href="/signup" className="px-3 py-2 rounded-lg border border-primary bg-primary text-white">Sign up</Link>
+        <button className="px-3 py-2 rounded-lg border border-border bg-background" onClick={logout}>Sign out</button>
       </nav>
-      <div className="container">{children}</div>
+      <div className="max-w-screen-lg mx-auto p-5">{children}</div>
     </>
   )
 }

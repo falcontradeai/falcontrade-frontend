@@ -43,28 +43,28 @@ export default function Listing() {
     if (res.ok) { alert('Uploaded'); setFile(null) } else alert('Upload failed (login?)')
   }
 
-  if (!item) return <div className="card">Loading…</div>
+  if (!item) return <div className="bg-card border border-border rounded-xl p-4 shadow">Loading…</div>
 
   return (
-    <div className="card">
-      <h2>{item.title}</h2>
-      <div className="badge">{item.type}</div> <span>{item.category}</span>
+    <div className="bg-card border border-border rounded-xl p-4 shadow">
+      <h2 className="text-xl font-bold">{item.title}</h2>
+      <div className="px-2 py-1 rounded-full bg-background inline-block text-xs">{item.type}</div> <span>{item.category}</span>
       <div className="mt-2">Qty: {item.quantity} · Incoterm: {item.incoterm} · {item.country}{item.city?(', '+item.city):''}</div>
-      <pre style={{whiteSpace:'pre-wrap', background:'#0b1220', padding:12, borderRadius:10, marginTop:10}}>{JSON.stringify(item.details, null, 2)}</pre>
+      <pre className="whitespace-pre-wrap bg-background p-3 rounded-lg mt-3">{JSON.stringify(item.details, null, 2)}</pre>
 
-      <h3 style={{marginTop:20}}>Messages</h3>
+      <h3 className="mt-5 font-bold">Messages</h3>
       <ul>
         {msgs.map(m => <li key={m.id}><b>{m.sender_email}</b>: {m.body}</li>)}
       </ul>
 
-      <form onSubmit={sendMsg} style={{marginTop:10}}>
-        <input className="input" placeholder="Write a message…" value={body} onChange={e=>setBody(e.target.value)} />
-        <button className="btn" style={{marginTop:8}}>Send</button>
+      <form onSubmit={sendMsg} className="mt-3 space-y-3">
+        <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Write a message…" value={body} onChange={e=>setBody(e.target.value)} />
+        <button className="px-3 py-2 rounded-lg border border-border bg-background">Send</button>
       </form>
 
-      <form onSubmit={upload} style={{marginTop:10}}>
-        <input className="input" type="file" onChange={e=>setFile(e.target.files[0])} />
-        <button className="btn" style={{marginTop:8}}>Upload document</button>
+      <form onSubmit={upload} className="mt-3 space-y-3">
+        <input className="w-full p-2 border border-border rounded-lg bg-background" type="file" onChange={e=>setFile(e.target.files[0])} />
+        <button className="px-3 py-2 rounded-lg border border-border bg-background">Upload document</button>
       </form>
     </div>
   )
