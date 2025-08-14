@@ -1,3 +1,4 @@
+// pages/pricing.js
 import { loadStripe } from '@stripe/stripe-js'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'

@@ -9,23 +9,23 @@ export default function NewOffer() {
 
   const submit = async (e) => {
     e.preventDefault();
-    await api.post('/offers', { ...form, details });
-    router.push('/dashboard');
+    await api.post('/listings', { type: 'OFFER', ...form, details });
+    router.push('/market');
   };
 
   return (
-    <div className="container">
-      <h1>New Offer</h1>
-      <form onSubmit={submit}>
-        <input className="input" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-        <input className="input" placeholder="Price" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
-        <input className="input" placeholder="Unit" value={form.unit} onChange={e => setForm({ ...form, unit: e.target.value })} />
-        <div className="flex">
-          <input className="input" placeholder="Country" value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} />
-          <input className="input" placeholder="City/Port" value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} />
+    <div>
+      <h1 className="text-xl font-bold">New Offer</h1>
+      <form onSubmit={submit} className="mt-3 space-y-3">
+        <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+        <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Price" value={form.price} onChange={e => setForm({ ...form, price: e.target.value})} />
+        <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Unit" value={form.unit} onChange={e => setForm({ ...form, unit: e.target.value })} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="Country" value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} />
+          <input className="w-full p-2 border border-border rounded-lg bg-background" placeholder="City/Port" value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} />
         </div>
         <textarea
-          className="textarea"
+          className="w-full p-2 border border-border rounded-lg bg-background"
           rows={6}
           placeholder='Details JSON (e.g., {"grade":"A","spec":"..."})'
           onChange={e => {
@@ -34,7 +34,7 @@ export default function NewOffer() {
             } catch {}
           }}
         />
-        <button className="btn">Create Offer</button>
+        <button className="px-3 py-2 rounded-lg border border-border bg-background">Create Offer</button>
       </form>
     </div>
   );

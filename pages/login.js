@@ -24,12 +24,12 @@ export default function Login() {
   }
 
   return (
-    <div className="card" style={{maxWidth:500, margin:'20px auto'}}>
-      <h2>Sign in</h2>
-      <form onSubmit={submit} className="space-y-2">
-        <input className="input" type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required />
-        <input className="input" type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} required />
-        <button className="btn">Sign in</button>
+    <div className="bg-card border border-border rounded-xl p-4 shadow max-w-md mx-auto mt-5">
+      <h2 className="text-xl font-bold">Sign in</h2>
+      <form onSubmit={submit} className="mt-3 space-y-3">
+        <input className="w-full p-2 border border-border rounded-lg bg-background" type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required/>
+        <input className="w-full p-2 border border-border rounded-lg bg-background" type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} required />
+        <button className="px-3 py-2 rounded-lg border border-border bg-background">Sign in</button>
       </form>
       {msg && <div className="mt-2">{msg}</div>}
     </div>
