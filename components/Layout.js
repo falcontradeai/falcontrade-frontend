@@ -20,6 +20,12 @@ export default function Layout({ children }) {
         <button className="btn" onClick={logout}>Sign out</button>
       </nav>
       <div className="container">{children}</div>
+      <footer className="footer" style={{marginTop:40, textAlign:'center'}}>
+        <Link className="btn" href="/about">About</Link>
+        <Link className="btn" href="/pricing">Pricing</Link>
+        <Link className="btn" href="/contact">Contact</Link>
+        <Link className="btn" href="/faq">FAQ</Link>
+      </footer>
     </>
   )
 }
