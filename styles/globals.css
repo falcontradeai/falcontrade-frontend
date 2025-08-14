@@ -12,3 +12,4 @@ a { color:#7dd3fc; text-decoration:none; }
 .badge { padding:2px 8px; border-radius:999px; background:#1f2937; font-size:12px; }
 .text-2xl { font-size: 1.5rem; font-weight: 700; }
 .mt-2 { margin-top: .5rem; } .mt-3 { margin-top: .75rem; }
+.footer { display:flex; gap:10px; padding:20px; justify-content:center; background:#0f1720; border-top:1px solid #1f2a36; }

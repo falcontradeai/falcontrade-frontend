@@ -20,6 +20,12 @@ export default function Layout({ children }) {
         <button className="btn" onClick={logout}>Sign out</button>
       </nav>
       <div className="container">{children}</div>
+      <footer className="footer">
+        <Link href="/about">About</Link>
+        <Link href="/pricing">Pricing</Link>
+        <Link href="/contact">Contact</Link>
+        <Link href="/faq">FAQ</Link>
+      </footer>
     </>
   )
 }
