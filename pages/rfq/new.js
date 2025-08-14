@@ -9,8 +9,8 @@ export default function NewRFQ() {
 
   const submit = async (e) => {
     e.preventDefault();
-    await api.post('/rfqs', { ...form, details });
-    router.push('/dashboard');
+    await api.post('/listings', { type: 'RFQ', ...form, details });
+    router.push('/market');
   };
 
   return (
