@@ -1,7 +1,8 @@
+import withSubscription from '../components/withSubscription'
 import { useEffect, useState } from 'react'
 import { API_BASE } from '../components/api'
 
-export default function Market() {
+function Market() {
   const [items, setItems] = useState([])
   const [type, setType] = useState('')
   const [category, setCategory] = useState('')
@@ -57,3 +58,5 @@ export default function Market() {
     </div>
   )
 }
+
+export default withSubscription(Market)
