@@ -9,8 +9,8 @@ export default function NewOffer() {
 
   const submit = async (e) => {
     e.preventDefault();
-    await api.post('/offers', { ...form, details });
-    router.push('/dashboard');
+    await api.post('/listings', { type: 'OFFER', ...form, details });
+    router.push('/market');
   };
 
   return (
